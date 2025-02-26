@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainwater Harvesting Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #qrcode {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Rainwater Harvesting Calculator</h2>
+    <p>Enter details below to estimate how much rainwater you can collect annually.</p>
+
+    <input type="number" id="roofArea" placeholder="Enter roof area (m²)">
+    <input type="number" id="annualRainfall" placeholder="Enter annual rainfall (mm)">
+    <button onclick="calculateRainwater()">Calculate & Generate QR Code</button>
+
+    <h3 id="result"></h3>
+    <div id="qrcode"></div>
+
+    <script>
+        function calculateRainwater() {
+            let roofArea = document.getElementById("roofArea").value;
+            let annualRainfall = document.getElementById("annualRainfall").value;
+
+            if (roofArea <= 0 || annualRainfall <= 0) {
+                alert("Please enter valid numbers for both fields.");
+                return;
+            }
+
+            let harvestedWater = roofArea * annualRainfall * 0.85; // Formula
+            let resultText = `Estimated Harvested Water: ${harvestedWater.toFixed(2)} liters per year`;
+
+            document.getElementById("result").innerText = resultText;
+
+            // Generate QR Code with the result
+            let qrData = `Roof Area: ${roofArea}m²\nAnnual Rainfall: ${annualRainfall}mm\nEstimated Harvested Water: ${harvestedWater.toFixed(2)} liters`;
+            document.getElementById("qrcode").innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), qrData);
+        }
+    </script>
+
+</body>
+</html>
